@@ -1,11 +1,6 @@
 repositories:
 - name: prometheus
   url: https://prometheus-community.github.io/helm-charts
-templates:
-  default: &default
-    namespace: production
-    chart: "{{`{{ .Release.Name }}`}}"
-    missingFileHandler: Warn
 releases:
 - name: prometheus
   namespace: prometheus
@@ -14,14 +9,16 @@ releases:
   - name: rbac.create
     value: false
 - name: devops-toolkit
-  <<: *default
+  namespace: production
+  chart: devops-toolkit
   set:
   - name: image.tag
-    value: "2.9.18"
+    value: "2.9.10"
   - name: ingress.host
     value: devops-toolkit.{{ requiredEnv "BASE_HOST" }}
 - name: devops-paradox
-  <<: *default
+  namespace: production
+  chart: devops-paradox
   set:
   - name: image.tag
     value: "1.71"
